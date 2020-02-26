@@ -64,16 +64,13 @@ tEnv.Append(CPPPATH = astrIncludePaths)
 tEnv.Replace(LDFILE = 'src/netiol.ld')
 tSrc = tEnv.SetBuildPath('targets', 'src', sources)
 tElf = tEnv.Elf('targets/ledm.elf', tSrc)
-
-# Dump the complete ELF.
+tBin = tEnv.ObjCopy('targets/ledm.bin', tElf)
 tTxt = tEnv.ObjDump('targets/ledm.txt', tElf, OBJDUMP_FLAGS=['--disassemble', '--source', '--all-headers', '--wide'])
 
 #-----------------------------------------------------------------------------
 #
 # Create a NIOL image from the ELF.
 #
-tBin = tEnv.ObjCopy('targets/ledm.bin', tElf)
-tNiol01 = tEnv.NiolImage('targets/ledm.niol', tElf)
 
 # ---------------------------------------------------------------------------
 #
@@ -95,7 +92,7 @@ tArcList = atEnv.DEFAULT.ArchiveList('zip')
 #    doc)
 
 tArcList.AddFiles('netx/',
-    tNiol01
+    tBin
 )
 
 tArcList.AddFiles('lua/',
