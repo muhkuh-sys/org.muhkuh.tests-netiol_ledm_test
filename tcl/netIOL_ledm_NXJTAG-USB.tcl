@@ -9,21 +9,18 @@ proc probe {} {
   set SC_CFG_RESULT 0
   set RESULT -1
 
-  # Setup the interface.
-echo {hi 1}
-  adapter_khz 500
-echo {hi 6}
-  interface ftdi
-echo {hi 2}
-  ftdi_location %FTDI_LOCATION%
-echo {hi 3}
-  transport select jtag
-echo {hi 4}
-  ftdi_device_desc "NXJTAG-USB"
-echo {hi 5}
-  ftdi_vid_pid 0x1939 0x0023
+  gdb_port disabled
+  tcl_port disabled
+  telnet_port disabled
 
-echo {hi 7}
+  # Setup the interface.
+  interface ftdi
+  ftdi_location %FTDI_LOCATION%
+  transport select jtag
+  ftdi_device_desc "NXJTAG-USB"
+  ftdi_vid_pid 0x1939 0x0023
+  adapter_khz 1000
+
   ftdi_layout_init 0x0308 0x030b
   ftdi_layout_signal nTRST -data 0x0100 -oe 0x0100
   ftdi_layout_signal nSRST -data 0x0200 -oe 0x0200
@@ -47,7 +44,7 @@ echo {hi 7}
       halt
 
       # Download the code.
-      load_image ledm.bin 0x8000 bin
+      load_image netx/ledm.bin 0x8000 bin
 
       # Set the LED values.
       mwh 0x4000 %LEDM_CFG%
