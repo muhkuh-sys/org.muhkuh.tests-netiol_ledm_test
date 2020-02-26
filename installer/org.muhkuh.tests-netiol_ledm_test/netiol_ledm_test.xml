@@ -14,10 +14,10 @@
 	</info>
 	<dependencies>
 		<dependency group="org.muhkuh.lua" module="luaopenocd" artifact="lua5.4-luaopenocd" version="1.0"/>
-		<dependency group="org.muhkuh.lua" module="luaftdi" artifact="lua5.4-luaftdi" version="1.0"/>
+		<dependency group="org.muhkuh.lua" module="luaftdi" artifact="lua5.4-luaftdi" version="1.1"/>
 	</dependencies>
 	<dependencies>
 		<dependency group="org.muhkuh.lua" module="luaopenocd" artifact="lua5.1-luaopenocd" version="1.0"/>
-		<dependency group="org.muhkuh.lua" module="luaftdi" artifact="lua5.1-luaftdi" version="1.0"/>
+		<dependency group="org.muhkuh.lua" module="luaftdi" artifact="lua5.1-luaftdi" version="1.1"/>
 	</dependencies>
 </jonchki-artifact>
