@@ -19,6 +19,8 @@
 #   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             #
 #-------------------------------------------------------------------------#
 
+import os
+
 
 #----------------------------------------------------------------------------
 #
@@ -73,3 +75,45 @@ tTxt = tEnv.ObjDump('targets/ledm.txt', tElf, OBJDUMP_FLAGS=['--disassemble', '-
 tBin = tEnv.ObjCopy('targets/ledm.bin', tElf)
 tNiol01 = tEnv.NiolImage('targets/ledm.niol', tElf)
 
+# ---------------------------------------------------------------------------
+#
+# Build an archive.
+#
+strGroup = 'org.muhkuh.tests'
+strModule = 'netiol_ledm_test'
+
+# Split the group by dots.
+aGroup = strGroup.split('.')
+# Build the path for all artifacts.
+strModulePath = 'targets/jonchki/repository/%s/%s/%s' % ('/'.join(aGroup), strModule, PROJECT_VERSION)
+
+strArtifact = 'netiol_ledm_test'
+
+tArcList = atEnv.DEFAULT.ArchiveList('zip')
+
+#tArcList.AddFiles('doc/',
+#    doc)
+
+tArcList.AddFiles('netx/',
+    tNiol01
+)
+
+tArcList.AddFiles('lua/',
+    'lua/netiol_jtag_ledm.lua'
+}
+
+tArcList.AddFiles('tcl/',
+    'tcl/netIOL_ledm_NXJTAG-4000-USB.tcl',
+    'tcl/netIOL_ledm_NXJTAG-USB.tcl'
+)
+
+tArcList.AddFiles('',
+    'installer/%s-%s/install.lua' % (strGroup, strModule))
+
+
+strBasePath = os.path.join(strModulePath, '%s-%s' % (strArtifact, PROJECT_VERSION))
+tArtifact = atEnv.DEFAULT.Archive('%s.zip' % strBasePath, None, ARCHIVE_CONTENTS = tArcList)
+tArtifactHash = atEnv.DEFAULT.Hash('%s.hash' % tArtifact[0].get_path(), tArtifact[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
+tConfiguration = atEnv.DEFAULT.Version('%s.xml' % strBasePath, 'installer/%s-%s/%s.xml' % (strGroup, strModule, strArtifact))
+tConfigurationHash = atEnv.DEFAULT.Hash('%s.hash' % tConfiguration[0].get_path(), tConfiguration[0].get_path(), HASH_ALGORITHM='md5,sha1,sha224,sha256,sha384,sha512', HASH_TEMPLATE='${ID_UC}:${HASH}\n')
+tPom = atEnv.DEFAULT.ArtifactVersion('%s.pom' % strBasePath, 'installer/%s-%s/%s.pom' % (strGroup, strModule, strArtifact))
