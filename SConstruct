@@ -100,7 +100,7 @@ tArcList.AddFiles('netx/',
 
 tArcList.AddFiles('lua/',
     'lua/netiol_jtag_ledm.lua'
-}
+)
 
 tArcList.AddFiles('tcl/',
     'tcl/netIOL_ledm_NXJTAG-4000-USB.tcl',
