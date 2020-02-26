@@ -9,7 +9,7 @@ function NetiolJtagLedm:_init(tLog)
   self.pl = require'pl.import_into'()
 
   local openocd = require 'luaopenocd'
-  self.tOpenOCD = openocd.luaopenocd()
+  self.tOpenOCD = openocd.luaopenocd(tLog.debug)
 end
 
 
